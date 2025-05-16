@@ -1,53 +1,55 @@
 pipeline {
-   agent any
+    agent any
 
-
-   environment {
-        IAMGE_NAME = "nodejs-cicd"
+    environment {
+        IMAGE_NAME = "nodejs-cicd"
         CONTAINER_NAME = "nodejs-cicd-container"
-}
+    }
 
-stages {
-   stage('clone repo') {
-   	steps {
-         git 'https://github.com/prudviA/jenkins-project2.git'	   
-}
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git ''
+            }
+        }
 
-stage('Install Dependencies') {
-	steps {
-	sh 'npm install'
-     }
-}
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
 
-   stage ('run test') {
-      steps {
-           sh 'npm test'
-      }
-}
-stage('build Docker Image') {
- steps {
-     sh "docker build -t $IMAGE_NAME ."
-   }
-}
- stage('remove old container') {
-   steps {
-        sh "docker rm -f $CONTAINER_NAME || true"
+        stage('Run Tests') {
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t $IMAGE_NAME ."
+            }
+        }
+
+        stage('Remove Old Container') {
+            steps {
+                sh "docker rm -f $CONTAINER_NAME || true"
+            }
+        }
+
+        stage('Run New Container') {
+            steps {
+                sh "docker run -d -p 3000:3000 --name $CONTAINER_NAME $IMAGE_NAME"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful'
+        }
+        failure {
+            echo 'Build failure'
+        }
     }
 }
-
-  stage('Run new Container') {
-     steps {
-       sh "docker run -d -p 3000:3000 --name $CONTAINER_NAME $IMAGE_NAME"     }
-   } 
-}
-post {
-  success {
-  echo 'Deployment successful'
-}
-
-failure {
-   echo "build failure"
-   }
- }
-}
-
