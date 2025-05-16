@@ -6,13 +6,6 @@ pipeline {
         CONTAINER_NAME = "nodejs-cicd-container"
     }
 
-    stages {
-        stage('Clone Repo') {
-            steps {
-                git 'https://github.com/prudviA/jenkins-proj2.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
