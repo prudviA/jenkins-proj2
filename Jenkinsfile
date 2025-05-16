@@ -42,7 +42,7 @@ stage('build Docker Image') {
 }
 post {
   success {
-  echo 'Deployment successful"
+  echo 'Deployment successful'
 }
 
 failure {
