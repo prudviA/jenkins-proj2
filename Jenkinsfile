@@ -6,6 +6,9 @@ pipeline {
         CONTAINER_NAME = "nodejs-cicd-container"
     }
 
+    stages {
+        // Removed unnecessary 'Clone Repo' stage
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
