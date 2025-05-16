@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git ''
+                git 'https://github.com/prudviA/jenkins-proj2.git'
             }
         }
 
